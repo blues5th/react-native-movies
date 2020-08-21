@@ -1,4 +1,20 @@
+import API from "@aws-amplify/api";
 import axios from "axios";
+
+const apiGet = async (path, params) => {
+  try {
+    console.log("api call", path);
+    const results = await API.get("laonni-app", path, params);
+    return [results, null];
+  } catch (e) {
+    console.log(e);
+    return [null, e];
+  }
+};
+
+export const bookingApi = {
+  getAllBookingList: () => apiGet("/getAllBookingList"),
+};
 
 const API_KEY = "7d31bd4a0529147093291c0392cf54ec";
 
