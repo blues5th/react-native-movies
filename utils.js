@@ -9,12 +9,3 @@ export const formatDate = (date) => {
     year: "numeric",
   });
 };
-
-export const sortItem = (item) => {
-  if (!item) {
-    return;
-  }
-  item.sort((a, b) => {
-    return a.startTime.localeCompare(b.startTime);
-  });
-};

@@ -1,14 +1,15 @@
 import React, { useLayoutEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { SimpleLineIcons } from "@expo/vector-icons";
-import { useTheme } from "@react-navigation/native";
-import Home from "../screens/Home";
-import Schedule from "../screens/Schedule";
-import Charts from "../screens/Charts";
+import { Ionicons } from "@expo/vector-icons";
+import Movies from "../screens/Movies";
+import Tv from "../screens/Tv";
+import Search from "../screens/Search";
+import Discovery from "../screens/Discovery";
+import { Platform } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const getHeaderName = (route) =>
-  route?.state?.routeNames[route.state.index] || "Home";
+  route?.state?.routeNames[route.state.index] || "Movie";
 
 export default ({ navigation, route }) => {
   useLayoutEffect(() => {
@@ -17,36 +18,37 @@ export default ({ navigation, route }) => {
       title: title,
     });
   });
-  const { colors } = useTheme();
 
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName = "";
-          if (route.name === "Schedule") {
-            iconName = "calendar";
-          } else if (route.name === "Charts") {
-            iconName = "chart";
-          } else if (route.name === "Home") {
-            iconName = "home";
+        tabBarIcon: ({ focused, color }) => {
+          let iconName = Platform.OS === "ios" ? "ios-" : "md-";
+          if (route.name === "Movies") {
+            iconName += "film";
+          } else if (route.name === "TV") {
+            iconName += "tv";
+          } else if (route.name === "Search") {
+            iconName += "search";
+          } else if (route.name === "Discovery") {
+            iconName += "heart";
           }
-          return <SimpleLineIcons name={iconName} size={24} color={color} />;
+          return <Ionicons name={iconName} size={25} color={color} />;
         },
       })}
       tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
-        showLabel: false,
+        activeTintColor: "white",
+        inactiveTintColor: "grey",
         style: {
-          backgroundColor: colors.background,
+          backgroundColor: "black",
           borderTopColor: "black",
         },
       }}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Schedule" component={Schedule} />
-      <Tab.Screen name="Charts" component={Charts} />
+      <Tab.Screen name="Movies" component={Movies} />
+      <Tab.Screen name="TV" component={Tv} />
+      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="Discovery" component={Discovery} />
     </Tab.Navigator>
   );
 };
